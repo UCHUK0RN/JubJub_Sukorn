@@ -19,7 +19,7 @@ const T={
     cancelOrder:'Cancel Order', cancelReason:'Reason for cancellation', confirmCancel:'Confirm Cancellation',
     submit:'Submit',cancel:'Cancel',back:'Back',save:'Save',
     name:'Full Name',email:'Email',password:'Password',mobile:'Mobile Number',
-    creditCard:'Credit Card',bankTransfer:'Bank Transfer',cashOnDelivery:'Cash on Delivery',
+    creditCard:'Credit Card',bankTransfer:'Promptpay QR',cashOnDelivery:'Cash on Delivery',
     fresh:'Fresh Pork',processed:'Processed Products',all:'All',
     inStock:'In Stock',lowStock:'Low Stock',
     orderPlaced:'Order Placed',packed:'Packed',shipped:'Shipped',outForDelivery:'Out for Delivery',delivered:'Delivered',
@@ -634,11 +634,9 @@ function renderCheckout(){
 
       ${state.checkoutData.payment==='bankTransfer'?`
         <div style="margin-top:18px;padding:18px;background:linear-gradient(135deg,#f0faf5,#e8f8ee);border:1.5px solid #a8dfc0;border-radius:18px">
-          <div style="font-weight:700;font-size:15px;margin-bottom:10px;color:#1a6e42">🏦 ${state.lang==='th'?'ข้อมูลการโอนเงิน':'Bank Transfer Details'}</div>
-          <div style="font-size:13px;color:#2d5a41;display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;justify-content:space-between"><span style="opacity:.7">${state.lang==='th'?'ธนาคาร':'Bank'}</span><strong>Kasikorn Bank (KBank)</strong></div>
-            <div style="display:flex;justify-content:space-between"><span style="opacity:.7">${state.lang==='th'?'ชื่อบัญชี':'Account Name'}</span><strong>JubJub Sukorn Co., Ltd.</strong></div>
-            <div style="display:flex;justify-content:space-between"><span style="opacity:.7">${state.lang==='th'?'เลขบัญชี':'Account No.'}</span><strong style="letter-spacing:.05em">123-4-56789-0</strong></div>
+          <div style="font-weight:700;font-size:15px;color:#1a6e42">📱 ${state.lang==='th'?'พร้อมเพย์ QR':'Promptpay QR'}</div>
+          <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.6);border-radius:10px;font-size:12px;color:#1a6e42">
+            📸 ${state.lang==='th'?'QR Code สำหรับชำระเงินจะแสดงในขั้นตอนถัดไป':'A payment QR code will be shown on the next step.'}
           </div>
         </div>
       `:''}
@@ -658,7 +656,7 @@ function renderCheckout(){
       </div>
       <div style="font-size:13px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;margin-bottom:14px">
         <div>📍 ${state.checkoutData.address}, ${state.checkoutData.city}</div>
-        <div style="margin-top:4px">${state.checkoutData.payment==='creditCard'?'💳':state.checkoutData.payment==='bankTransfer'?'🏦':'💵'} ${t(state.checkoutData.payment)}${state.checkoutData.payment==='creditCard'&&state.checkoutData.cardNumber?` •••• ${state.checkoutData.cardNumber.replace(/\s/g,'').slice(-4)}`:''}</div>
+        <div style="margin-top:4px">${state.checkoutData.payment==='creditCard'?'💳':state.checkoutData.payment==='bankTransfer'?'📱':'💵'} ${t(state.checkoutData.payment)}${state.checkoutData.payment==='creditCard'&&state.checkoutData.cardNumber?` •••• ${state.checkoutData.cardNumber.replace(/\s/g,'').slice(-4)}`:''}</div>
         ${['Bangkok','กรุงเทพฯ'].includes(state.checkoutData.city)?`<div style="margin-top:6px"><span class="badge badge-green">🚀 ${t('within24h')}</span></div>`:''}
       </div>
 
