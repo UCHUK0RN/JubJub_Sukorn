@@ -1,4 +1,4 @@
-# JubJub Sukorn Web Ordering System
+# JubJub Sukorn Web
 
 ## 🐷 Business Overview
 JubJub Sukorn is a premium pig farm that produces and delivers fresh and processed pork products directly to customers' doorsteps. This web-based ordering and management system was built to streamline the purchasing process, improve inventory management, and enhance the overall customer experience. 
