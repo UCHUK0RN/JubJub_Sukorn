@@ -1,46 +1,70 @@
-# 🐷 JubJub Sukorn
+# JubJub Sukorn Web Ordering System
 
-A modern, responsive, single-page e-commerce web application for a premium pork shop. This project is built entirely with Vanilla JavaScript, HTML, and CSS, requiring no build tools or external databases to run.
+## 🐷 Business Overview
+JubJub Sukorn is a premium pig farm that produces and delivers fresh and processed pork products directly to customers' doorsteps. This web-based ordering and management system was built to streamline the purchasing process, improve inventory management, and enhance the overall customer experience. 
 
-## ✨ Features
+## ✨ Key Features
+The platform supports multiple user roles, each with a dedicated dashboard and functionality:
 
-* **Interactive Storefront:** Browse fresh cuts and processed pork products with real-time search and category filtering.
-* **Multi-Language Support:** Seamlessly toggle between English and Thai (ภาษาไทย) translations.
-* **Shopping Cart & Checkout:** Full cart functionality including quantity updates, subtotal calculations, and a simulated multi-step checkout process.
-* **Loyalty Points System:** Customers earn points on purchases and can redeem them for discounts during checkout.
-* **Role-Based Access Control:**
-  * **Customer:** Browse products, place orders, view order history, and request refunds.
-  * **Admin:** Dashboard to add, edit, or remove products (supporting direct Image URLs), and monitor overall store metrics.
-  * **Warehouse:** Workflow panel to view pending orders and mark them as packed for delivery.
-  * **Staff:** Customer service panel to review, approve, or reject refund requests.
+### 👤 Customer
+* **Product Catalog:** Browse fresh and processed pork products.
+* **Shopping Cart & Checkout:** Manage cart items and checkout using multiple payment methods (Credit Card, Bank Transfer with QR simulation, Cash on Delivery).
+* **Order Tracking:** Track the real-time status of orders from placement to delivery.
+* **Loyalty Points:** Earn points on successful purchases and redeem them for discounts.
+* **Order Management:** Cancel pending orders or request refunds for delivered items.
 
-## 🚀 How to Run
+### ⚙️ System Administrator
+* **Product Management:** Add, edit, or remove products.
+* **Inventory Control:** Monitor and update product stock levels.
+* **System Overview:** View store-wide statistics, total orders, and customer counts.
 
-Because this app uses a purely front-end architecture with an in-memory state, there is no installation required.
+### 📦 Warehouse Staff
+* **Order Fulfillment:** View pending orders, mark them as packed, and assign them to delivery drivers.
+* **Workflow Management:** Track items transitioning from pending to in-transit.
 
-1. Clone or download this repository.
-2. Open the `JubJub Web` folder.
-3. Double-click `index.html` to open it in your default web browser.
+### 🛵 Delivery Staff
+* **Delivery Dashboard:** View assigned orders and delivery addresses.
+* **Status Updates:** Mark orders as picked up, out for delivery, and successfully delivered.
 
-## 🔐 Demo Accounts
+### 🎧 Customer Service Staff
+* **Refund Management:** Review, approve, or reject customer refund requests.
+* **Feedback Tracking:** View reasons for customer order cancellations.
 
-You can test the different role-based views using the following demo credentials. Click **Login** in the top right corner of the app.
+### 🌐 General System Features
+* **Bilingual Support:** Fully togglable between English and Thai (ภาษาไทย).
+* **Responsive Design:** Optimized for both desktop and mobile browsing.
+
+## 🚀 Tech Stack
+This project is built as a lightweight, fully interactive Single Page Application (SPA) utilizing:
+* **HTML5**
+* **CSS3** (Custom variables, responsive grid/flexbox layouts)
+* **Vanilla JavaScript** (State management, dynamic UI rendering, localized dictionary)
+
+*No external dependencies or build tools (like Node.js, Webpack, or React) are required to run this core prototype.*
+
+## 🛠️ How to Run
+Since the application is built with pure web technologies, no server installation is required.
+1. Download or clone the repository.
+2. Open the `JubJub Website` folder.
+3. Double-click on `index.html` to open it in your preferred modern web browser (Google Chrome recommended).
+
+## 🔑 Demo Accounts
+To explore the different role-based dashboards, use the following credentials on the Login page:
 
 | Role | Email | Password |
 | :--- | :--- | :--- |
 | **Customer** | `customer@demo.com` | `demo` |
-| **Admin** | `admin@jubjub.com` | `admin` |
+| **Administrator** | `admin@jubjub.com` | `admin` |
 | **Warehouse** | `warehouse@jubjub.com` | `warehouse` |
-| **Staff** | `staff@jubjub.com` | `staff` |
+| **Customer Service** | `staff@jubjub.com` | `staff` |
+| **Delivery Driver** | `delivery@gmail.com` | `delivery` |
 
-## 🛠️ Tech Stack
+## 👥 Project Team
+**Mahidol University - Faculty of Information and Communication Technology**
+* Mr. Natdanai Chuwong-apichat (6788019)
+* Mr. Uchukorn Ek-areejit (6788021)
+* Mr. Duarn Kaeokertkhen (6788034)
+* Mr. Nathawat Burapolpiman (6788139)
+* Mr. Saharut Srithawong (6788218)
 
-* **HTML5** (Structure)
-* **CSS3** (Custom styling, CSS variables, glassmorphism UI)
-* **Vanilla JavaScript** (State management, DOM manipulation, action handling)
-
-## 📁 Project Structure
-
-* `index.html` - The main entry point and app container.
-* `styles.css` - All styling, layout, and responsive design rules.
-* `app.js` - Consolidated application logic, including static data, state management, render functions, and user actions.
+*(Project Phase #2 - ITCS224 Fundamental of Information System & Software Development, 2025)*
