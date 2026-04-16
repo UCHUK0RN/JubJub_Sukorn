@@ -113,8 +113,8 @@ const state = window.state = {
     {id:'u-admin',name:'Admin',email:'admin@jubjub.com',password:'admin',role:'admin',points:0},
     {id:'u-warehouse',name:'Warehouse Staff',email:'warehouse@jubjub.com',password:'warehouse',role:'warehouse',points:0},
     {id:'u-staff',name:'Customer Service',email:'staff@jubjub.com',password:'staff',role:'staff',points:0},
-    {id:'u-delivery',name:'Delivery Driver',email:'delivery@gmail.com',password:'delivery',mobile:'089-123-4567',role:'delivery',points:0},
-    {id:'u-demo',name:'Demo Customer',email:'customer@demo.com',password:'demo',role:'customer',points:350},
+    {id:'u-delivery',name:'Delivery Driver',email:'delivery@jubjub.com',password:'delivery',mobile:'089-123-4567',role:'delivery',points:0},
+    {id:'u-demo',name:'Demo Customer',email:'customer@jubjub.com',password:'customer',role:'customer',points:350},
   ],
   products:[...PRODUCTS],
   cart:[],
@@ -1174,11 +1174,11 @@ function renderLoginModal(){
     <div id="login-error" style="display:none;color:#922b21;font-size:13px;margin-top:4px;background:#fadbd8;padding:8px 12px;border-radius:6px">Invalid email or password. Please try again.</div>
     <div class="login-hint">
       <b>Demo accounts:</b><br>
-      Customer: customer@demo.com / demo<br>
+      Customer: customer@jubjub.com / customer<br>
       Admin: admin@jubjub.com / admin<br>
       Warehouse: warehouse@jubjub.com / warehouse<br>
       Staff: staff@jubjub.com / staff<br>
-      Delivery: delivery@gmail.com / delivery
+      Delivery: delivery@jubjub.com / delivery
     </div>
   </div>
   <div class="modal-footer">
