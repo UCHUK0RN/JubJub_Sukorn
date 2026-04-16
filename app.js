@@ -61,7 +61,7 @@ const T={
     cancelOrder:'ยกเลิกคำสั่งซื้อ', cancelReason:'เหตุผลการยกเลิก', confirmCancel:'ยืนยันการยกเลิก',
     submit:'ยืนยัน',cancel:'ยกเลิก',back:'กลับ',save:'บันทึก',
     name:'ชื่อ-นามสกุล',email:'อีเมล',password:'รหัสผ่าน',mobile:'เบอร์โทรศัพท์',
-    creditCard:'บัตรเครดิต',bankTransfer:'โอนเงิน',cashOnDelivery:'เก็บเงินปลายทาง',
+    creditCard:'บัตรเครดิต',bankTransfer:'พร้อมเพย์ QR',cashOnDelivery:'เก็บเงินปลายทาง',
     fresh:'หมูสด',processed:'หมูแปรรูป',all:'ทั้งหมด',
     inStock:'มีสินค้า',lowStock:'เหลือน้อย',
     orderPlaced:'รับออเดอร์',packed:'แพ็คสินค้า',shipped:'จัดส่ง',outForDelivery:'กำลังจัดส่ง',delivered:'ส่งแล้ว',
@@ -98,7 +98,8 @@ const PRODUCTS=[
   {id:7,name:'Smoked Bacon',nameTh:'เบคอนรมควัน',category:'processed',price:120,unit:'300g',stock:45,image:'https://smokedmeats.com/cdn/shop/products/BCbacon__52963.jpg?v=1664301615&width=1200',desc:'Premium wood-smoked bacon with a perfect balance of meat and fat. Crisp and flavorful.',descTh:'เบคอนรมควันไม้พรีเมียม สัดส่วนเนื้อและไขมันกำลังดี กรอบอร่อยรสชาติเข้มข้น'},
   {id:8,name:'Crispy Pork',nameTh:'หมูกรอบ',category:'processed',price:160,unit:'300g',stock:35,image:'https://kwokspots.com/wp-content/uploads/2024/08/crispy-pork-bellyl-2.png',desc:'Golden crispy roast pork.',descTh:'หมูกรอบสำเร็จรูป'},
   {id:9,name:'Classic Sausage',nameTh:'ไส้กรอกหมูคลาสสิก',category:'processed',price:85,unit:'200g',stock:28,image:'https://media.bangkok.sloanes.co.th/spio/ret_img,q_cdnize,to_auto,s_webp:avif/bangkok.sloanes.co.th/wp-content/uploads/2025/06/tmpyfyhm_br.png',desc:'Classic pork sausage, seasoned with herbs and spices. Great for breakfast or grilling.',descTh:'ไส้กรอกหมูสูตรต้นตำรับ ปรุงรสด้วยเครื่องเทศ เหมาะสำหรับมื้อเช้าหรือปิ้งย่าง'},
-  {id:10,name:'Premium Ham',nameTh:'แฮมหมูพรีเมียม',category:'processed',price:150,unit:'200g',stock:25,image:'https://floridapremiumbeef.com/cdn/shop/files/PorkHam.png?format=webp&v=1763562052&width=1946',desc:'Tender, slow-cooked pork ham with a touch of sweetness. Perfect for sandwiches or salads.',descTh:'แฮมหมูเนื้อนุ่ม ปรุงสุกอย่างพิถีพิถัน รสชาติกลมกล่อม เหมาะสำหรับแซนด์วิชหรือสลัด'}
+  {id:10,name:'Pork Floss',nameTh:'หมูหยอง',category:'processed',price:110,unit:'150g',stock:3,image:'https://kbfoods2004.com/wp-content/uploads/2024/06/249995_0.jpg',desc:'Light and crispy pork floss.',descTh:'หมูหยองกรอบเบา'},
+  {id:11,name:'Premium Ham',nameTh:'แฮมหมูพรีเมียม',category:'processed',price:150,unit:'200g',stock:25,image:'https://floridapremiumbeef.com/cdn/shop/files/PorkHam.png?format=webp&v=1763562052&width=1946',desc:'Tender, slow-cooked pork ham with a touch of sweetness. Perfect for sandwiches or salads.',descTh:'แฮมหมูเนื้อนุ่ม ปรุงสุกอย่างพิถีพิถัน รสชาติกลมกล่อม เหมาะสำหรับแซนด์วิชหรือสลัด'}
 ];
 
 // ==========================================
@@ -147,7 +148,13 @@ function getOrdersForUser(uid){return state.orders.filter(o=>o.userId===uid)}
 // 3. ACTIONS
 // ==========================================
 function navigate(page){
-  // Allow the user to navigate anywhere freely
+  if (state.page === 'cart' && state.checkoutStep === 4 && page !== 'cart') {
+    alert(state.lang === 'th' ? 
+      'กรุณาสแกน QR และยืนยันการชำระเงิน หรือกดย้อนกลับเพื่อช้อปปิ้งต่อ' : 
+      'Please scan the QR and confirm payment, or click Back to continue shopping.');
+    return;
+  }
+  
   state.page=page;
   state.modal=null;
   render();
@@ -155,14 +162,12 @@ function navigate(page){
 
 function setLang(){state.lang=state.lang==='en'?'th':'en';render()}
 
-// Checks if the user is trying to modify their cart while a QR payment is waiting
 function checkPendingPayment() {
   if (state.checkoutData.payment === 'bankTransfer' && state.checkoutData.qrGeneratedAt) {
     alert(state.lang === 'th' ? 
       'กรุณาชำระเงินออเดอร์ก่อนหน้าให้เสร็จสิ้น หรือกดยกเลิก QR ก่อนเพื่อซื้อสินค้าต่อ' : 
       'Please complete your pending payment or cancel the QR to continue shopping.');
     
-    // Redirect them to the cart to see their pending payment
     if (state.page !== 'cart') navigate('cart');
     return true; 
   }
@@ -170,17 +175,17 @@ function checkPendingPayment() {
 }
 
 function addToCart(pid){
-  if (checkPendingPayment()) return; // Block adding items if QR is active
+  if (checkPendingPayment()) return; 
   const idx=state.cart.findIndex(c=>c.productId===pid);if(idx>=0)state.cart[idx].qty++;else state.cart.push({productId:pid,qty:1});render();
 }
 
 function updateQty(pid,delta){
-  if (checkPendingPayment()) return; // Block changing quantity if QR is active
+  if (checkPendingPayment()) return; 
   const idx=state.cart.findIndex(c=>c.productId===pid);if(idx<0)return;state.cart[idx].qty+=delta;if(state.cart[idx].qty<=0)state.cart.splice(idx,1);render();
 }
 
 function removeFromCart(pid){
-  if (checkPendingPayment()) return; // Block removing items if QR is active
+  if (checkPendingPayment()) return; 
   state.cart=state.cart.filter(c=>c.productId!==pid);render();
 }
 
@@ -251,13 +256,11 @@ function confirmCancelOrder(ordId, reason) {
     o.status = 'cancelled';
     o.cancellationReason = reason;
 
-    // Rollback Points: Give back points used, remove points earned
     const u = state.users.find(x => x.id === o.userId);
     if (u) {
       u.points = u.points + o.ptsUsed - o.pointsEarned;
     }
 
-    // Notify Customer
     state.notifications.push({
       id: 'n' + Date.now(),
       userId: o.userId,
@@ -297,16 +300,20 @@ function markPacked(ordId){
 
 function assignDriver(ordId,driverId){
   const o=state.orders.find(x=>x.id===ordId);
-  if(o){o.driverId=driverId;o.status='shipped';o.trackingStatus=2;
-    state.notifications.push({id:'n'+Date.now(),userId:o.userId,msg:`Order ${ordId} has been dispatched for delivery!`,msgTh:`ออเดอร์ ${ordId} กำลังจัดส่งแล้ว!`,read:false,date:new Date().toISOString().slice(0,10)});
-    render();}
-}
-
-function driverPickUp(ordId){
-  const o=state.orders.find(x=>x.id===ordId);
-  if(o){o.status='outForDelivery';o.trackingStatus=3;
-    state.notifications.push({id:'n'+Date.now(),userId:o.userId,msg:`Order ${ordId} is out for delivery — expect it soon!`,msgTh:`ออเดอร์ ${ordId} กำลังนำส่งถึงคุณแล้ว!`,read:false,date:new Date().toISOString().slice(0,10)});
-    render();}
+  if(o){
+    o.driverId=driverId;
+    o.status='outForDelivery'; // Skips 'shipped'
+    o.trackingStatus=3;        // Skips step 2, goes to 3
+    state.notifications.push({
+      id:'n'+Date.now(),
+      userId:o.userId,
+      msg:`Order ${ordId} is out for delivery — expect it soon!`,
+      msgTh:`ออเดอร์ ${ordId} กำลังนำส่งถึงคุณแล้ว!`,
+      read:false,
+      date:new Date().toISOString().slice(0,10)
+    });
+    render();
+  }
 }
 
 function driverDeliver(ordId){
@@ -605,7 +612,7 @@ function renderCheckout(){
         <div style="display:flex;flex-direction:column;gap:10px">
           ${['creditCard','bankTransfer','cashOnDelivery'].map(pm=>`
             <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1.5px solid ${state.checkoutData.payment===pm?'var(--primary)':'var(--border)'};border-radius:14px;cursor:pointer;background:${state.checkoutData.payment===pm?'rgba(143,45,31,.06)':'rgba(255,255,255,.7)'};transition:all .18s" onclick="state.checkoutData.payment='${pm}';render()">
-              <span style="font-size:22px">${pm==='creditCard'?'💳':pm==='bankTransfer'?'🏦':'💵'}</span>
+              <span style="font-size:22px">${pm==='creditCard'?'💳':pm==='bankTransfer'?'📱':'💵'}</span>
               <span style="font-weight:${state.checkoutData.payment===pm?'700':'400'};flex:1">${t(pm)}</span>
               <span style="width:18px;height:18px;border-radius:50%;border:2px solid ${state.checkoutData.payment===pm?'var(--primary)':'var(--border)'};display:inline-flex;align-items:center;justify-content:center">${state.checkoutData.payment===pm?`<span style="width:10px;height:10px;border-radius:50%;background:var(--primary);display:block"></span>`:''}</span>
             </label>
@@ -1026,12 +1033,6 @@ function renderDelivery(){
   const done=isDriver
     ? state.orders.filter(o=>o.driverId===myId&&o.status==='delivered')
     : state.orders.filter(o=>o.status==='delivered');
-  const waiting=isDriver
-    ? state.orders.filter(o=>o.driverId===myId&&o.status==='shipped')
-    : [];
-  const active=isDriver
-    ? assigned.filter(o=>o.status==='outForDelivery')
-    : assigned;
 
   return `<div class="page">
     <div class="surface-head">
@@ -1047,54 +1048,19 @@ function renderDelivery(){
     <div class="stat-cards">
       <div class="stat-card"><div class="stat-val">${assigned.length}</div><div class="stat-label">${t('inTransit')}</div></div>
       <div class="stat-card"><div class="stat-val">${done.length}</div><div class="stat-label">${t('completedDeliveries')}</div></div>
-      ${isDriver?`<div class="stat-card"><div class="stat-val">${waiting.length}</div><div class="stat-label">${t('awaitingPickup')}</div></div>`:''}
     </div>
 
-    ${isDriver&&waiting.length>0?`
-      <div class="section-title" style="margin-top:8px">📦 ${t('awaitingPickup')}</div>
-      <p style="font-size:13px;color:var(--muted);margin:-10px 0 14px">${state.lang==='th'?'ออเดอร์เหล่านี้แพ็คพร้อมแล้ว ไปรับที่คลังได้เลย':'These orders are packed and ready. Pick them up from the warehouse.'}</p>
-      ${waiting.map(o=>{
-        const customer=state.users.find(u=>u.id===o.userId);
-        return `<div class="card" style="margin-bottom:12px;overflow:hidden">
-          <div style="background:linear-gradient(135deg,#fff8ea,#fff3d8);padding:14px 16px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <span class="badge badge-orange">Ready for Pickup</span>
-                <strong style="margin-left:8px;color:var(--primary)">${o.id}</strong>
-              </div>
-              <span style="font-size:13px;color:var(--muted)">${o.date}</span>
-            </div>
-          </div>
-          <div style="padding:14px 16px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;font-size:13px">
-              <div><span style="color:var(--muted)">Customer</span><br><strong>${customer?.name||'Customer'}</strong></div>
-              <div><span style="color:var(--muted)">Total</span><br><strong style="color:var(--primary)">฿${o.total}</strong></div>
-              <div style="grid-column:1/-1"><span style="color:var(--muted)">📍 Drop-off Address</span><br><strong>${o.address}, ${o.city}</strong></div>
-              <div><span style="color:var(--muted)">Payment</span><br><span class="badge badge-gray">${t(o.payment)}</span></div>
-              ${o.isBangkok?`<div><span class="badge badge-green" style="margin-top:4px">🚀 24h Priority</span></div>`:''}
-            </div>
-            <div style="font-size:13px;color:var(--muted);background:#f8f4f0;padding:8px 10px;border-radius:10px;margin-bottom:12px">
-              ${o.items.map(i=>{const p=state.products.find(x=>x.id===i.productId);return p?`${pname(p)} ×${i.qty}`:''}).join(' • ')}
-            </div>
-            <button class="btn btn-primary" style="width:100%;padding:12px" onclick="driverPickUp('${o.id}')">
-              📦 ${t('pickUp')} — Confirm I have this order
-            </button>
-          </div>
-        </div>`;
-      }).join('')}
-    `:''}
-
-    ${active.length>0||(!isDriver&&assigned.length>0)?`
-      <div class="section-title" style="margin-top:${waiting.length>0?'20':'8'}px">🛵 ${t('inTransit')}</div>
+    ${assigned.length>0?`
+      <div class="section-title" style="margin-top:8px">🛵 ${t('inTransit')}</div>
       <p style="font-size:13px;color:var(--muted);margin:-10px 0 14px">${state.lang==='th'?'ออเดอร์ที่กำลังอยู่ระหว่างจัดส่ง':'Orders currently on the road.'}</p>
-      ${(isDriver?active:assigned).map(o=>{
+      ${assigned.map(o=>{
         const customer=state.users.find(u=>u.id===o.userId);
         const driver=state.users.find(u=>u.id===o.driverId);
         return `<div class="card" style="margin-bottom:12px;overflow:hidden">
           <div style="background:linear-gradient(135deg,rgba(44,107,159,.08),rgba(219,234,247,.5));padding:14px 16px;border-bottom:1px solid var(--border)">
             <div style="display:flex;justify-content:space-between;align-items:center">
               <div>
-                <span class="badge badge-blue">${o.status==='outForDelivery'?'🛵 Out for Delivery':'Shipped'}</span>
+                <span class="badge badge-blue">🛵 Out for Delivery</span>
                 <strong style="margin-left:8px;color:var(--primary)">${o.id}</strong>
               </div>
               <span style="font-size:13px;color:var(--muted)">${o.date}</span>
@@ -1118,7 +1084,7 @@ function renderDelivery(){
       }).join('')}
     `:''}
 
-    ${assigned.length===0&&(isDriver?waiting.length===0:true)?`
+    ${assigned.length===0?`
       <div class="empty-state" style="margin-top:20px">
         <div class="icon">🛵</div>
         <div>${t('noAssigned')}</div>
