@@ -1,7 +1,11 @@
-# JubJub Sukorn Web
+# Jubjub Sukorn Web Ordering System
 
 ## 🐷 Business Overview
-JubJub Sukorn is a premium pig farm that produces and delivers fresh and processed pork products directly to customers' doorsteps. This web-based ordering and management system was built to streamline the purchasing process, improve inventory management, and enhance the overall customer experience. 
+Jubjub Sukorn is a premium pig farm that produces and delivers fresh and processed pork products directly to customers' doorsteps. This web-based ordering and management system was built to streamline the purchasing process, improve inventory management, and enhance the overall customer experience. 
+
+## 🔗 Links
+* **Live Prototype:** https://uchuk0rn.github.io/JubJub_Sukorn/
+* **GitHub Repository:** https://github.com/UCHUKORN/JubJub_Sukorn
 
 ## ✨ Key Features
 The platform supports multiple user roles, each with a dedicated dashboard and functionality:
@@ -9,7 +13,7 @@ The platform supports multiple user roles, each with a dedicated dashboard and f
 ### 👤 Customer
 * **Product Catalog:** Browse fresh and processed pork products.
 * **Shopping Cart & Checkout:** Manage cart items and checkout using multiple payment methods (Credit Card, Bank Transfer with QR simulation, Cash on Delivery).
-* **Order Tracking:** Track the real-time status of orders from placement to delivery.
+* **Order Tracking:** Track the real-time status of orders from placement to delivery with a step-by-step visual timeline.
 * **Loyalty Points:** Earn points on successful purchases and redeem them for discounts.
 * **Order Management:** Cancel pending orders or request refunds for delivered items.
 
@@ -23,11 +27,11 @@ The platform supports multiple user roles, each with a dedicated dashboard and f
 * **Workflow Management:** Track items transitioning from pending to in-transit.
 
 ### 🛵 Delivery Staff
-* **Delivery Dashboard:** View assigned orders and delivery addresses.
+* **Delivery Dashboard:** View assigned orders and customer delivery addresses.
 * **Status Updates:** Mark orders as picked up, out for delivery, and successfully delivered.
 
 ### 🎧 Customer Service Staff
-* **Refund Management:** Review, approve, or reject customer refund requests.
+* **Refund Management:** Review, approve, or reject customer refund requests and provide rejection reasons.
 * **Feedback Tracking:** View reasons for customer order cancellations.
 
 ### 🌐 General System Features
