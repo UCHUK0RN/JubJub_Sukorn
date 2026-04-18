@@ -53,11 +53,11 @@ To explore the different role-based dashboards, use the following credentials on
 
 | Role | Email | Password |
 | :--- | :--- | :--- |
-| **Customer** | `customer@demo.com` | `demo` |
+| **Customer** | `customer@jubjub.com` | `customer` |
 | **Administrator** | `admin@jubjub.com` | `admin` |
 | **Warehouse** | `warehouse@jubjub.com` | `warehouse` |
 | **Customer Service** | `staff@jubjub.com` | `staff` |
-| **Delivery Driver** | `delivery@gmail.com` | `delivery` |
+| **Delivery Driver** | `delivery@jubjub.com` | `delivery` |
 
 ## 👥 Project Team
 **Mahidol University - Faculty of Information and Communication Technology**
