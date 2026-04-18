@@ -27,14 +27,14 @@ The platform supports multiple user roles, each with a dedicated dashboard and f
 
 ### 🛵 Delivery Staff
 * **Delivery Dashboard:** View assigned orders and customer delivery addresses.
-* **Status Updates:** Mark orders as picked up, out for delivery, and successfully delivered.
+* **Status Updates:** Mark orders as successfully delivered.
 
 ### 🎧 Customer Service Staff
 * **Refund Management:** Review, approve, or reject customer refund requests and provide rejection reasons.
 * **Feedback Tracking:** View reasons for customer order cancellations.
 
 ### 🌐 General System Features
-* **Bilingual Support:** Fully togglable between English and Thai (ภาษาไทย).
+* **Bilingual Support:** Fully togglable between English and Thai.
 * **Responsive Design:** Optimized for both desktop and mobile browsing.
 
 ## 🚀 Tech Stack
